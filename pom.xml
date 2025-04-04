@@ -8,11 +8,22 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com.suriyaprakhash</groupId>
 	<artifactId>springboot-instrumentation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>springboot-instrumentation</name>
 	<description>Demo project for Spring Boot instrumentation</description>
+	
+	  <packaging>pom</packaging>
+
+  <modules>
+	<module>client</module>
+	<module>server</module>
+  </modules>
+	
+	
 	<url/>
 	<licenses>
 		<license/>
@@ -70,6 +81,16 @@
 			<groupId>io.zipkin.reporter2</groupId>
 			<artifactId>zipkin-reporter-brave</artifactId>
 		</dependency>
+		<!-- uses brave instrumentation (micrometer to brave) -->
+<!--		<dependency>-->
+<!--			<groupId>io.micrometer</groupId>-->
+<!--			<artifactId>micrometer-tracing-bridge-otel</artifactId>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash; reporter to zipkin &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>io.opentelemetry</groupId>-->
+<!--			<artifactId>opentelemetry-exporter-zipkin</artifactId>-->
+<!--		</dependency>-->
 
 		<!-- the following is required for metrics -->
 		<!-- so as it provides actuator endpoints -->

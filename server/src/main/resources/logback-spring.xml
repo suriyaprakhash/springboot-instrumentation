@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="serviceName" value="instr-client" />
+    <property name="serviceName" value="server-app" />
     <property name="app" value="springboot-instrumentation" />
 
 

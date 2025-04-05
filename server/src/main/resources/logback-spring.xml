@@ -19,7 +19,7 @@
         </http>
         <format>
             <label>
-                <pattern>app=${app},service_name=${serviceName},host=${HOSTNAME},level=%level</pattern>
+                <pattern>app=${app},service_name=${serviceName},host=${HOSTNAME},level=%level,userId=%X{userId}</pattern>
                 <readMarkers>true</readMarkers>
             </label>
             <message>
@@ -30,8 +30,7 @@
                         "thread":"%thread",
                         "message": "%message",
                         "traceId": "%X{traceId:-}",
-                        "spanId": "%X{spanId:-}",
-                        "userId": "%X{userId}"
+                        "spanId": "%X{spanId:-}"
                     }
                 </pattern>
             </message>

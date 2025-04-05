@@ -1,27 +1,30 @@
 package com.suriyaprakhash.springboot_instrumentation;
 
+import io.micrometer.observation.annotation.Observed;
+import io.micrometer.tracing.BaggageInScope;
+import io.micrometer.tracing.Tracer;
+import io.micrometer.tracing.annotation.ContinueSpan;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClient;
 
 @RestController
 @SpringBootApplication
 @Slf4j
 public class ServerApplication {
 
-	private RestClient restClient;
+	private final Tracer tracer;
 
-	public static void main(String[] args) {
+    public ServerApplication(Tracer tracer) {
+        this.tracer = tracer;
+    }
+
+    public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
-	}
-
-	public RestClient myRestClient() {
-		return RestClient.builder()
-				.baseUrl("http://localhost:8080")
-				.build();
 	}
 
 	@GetMapping
@@ -30,10 +33,11 @@ public class ServerApplication {
 		return "Hello World!";
 	}
 
-
+	@AddBaggage
 	@GetMapping("/server")
 	public String server() {
-		log.info("Logging on server");
+		// Note here the MDC contains the userId value
+		log.info("Logging on server with userId - {}", MDC.get("userId"));
 		return "Hello World!";
 	}
 }

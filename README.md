@@ -45,3 +45,17 @@ Navigate to Grafana Loki on http://localhost:3000 to visualize
 
 Navigate to http://localhost:9090 (not working - need to find why)
 Navigate to http://localhost:3000 - grafana to view prometheus metrics
+
+
+## Takeaway
+
+### Trace
+
+- Baggage is not getting copied over - by default
+  - We cannot set the userId baggage in interceptor because, the interceptor will have different Span, and when it comes to controller method - it will be in differnt span - however within the same trace
+  - Need to add **AddBaggage** annotation and manually copy and have the controller method execute in the scope try block
+  - Strangely, it only works for **micrometer-tracing-bridge-otel** and not for **micrometer-tracing-bridge-brave**
+- @Async thread - @NewSpan and @ContinueSpan dose not work by default - however it works ok for calling different methods within the main thread
+  - @Async needs custom ExecutorTaskPool defined and the context copied over
+    - Note - the above isn't tracable with using @ContinueSpan in the Zipkin grafana
+    - Also the baggage isn't getting carried to async thread

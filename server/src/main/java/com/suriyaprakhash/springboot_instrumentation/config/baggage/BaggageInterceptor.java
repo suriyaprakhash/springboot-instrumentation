@@ -1,4 +1,4 @@
-package com.suriyaprakhash.springboot_instrumentation;
+package com.suriyaprakhash.springboot_instrumentation.config.baggage;
 
 import io.micrometer.tracing.BaggageInScope;
 import io.micrometer.tracing.Span;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 //@Component
-//@RequiredArgsConstructor
 public class BaggageInterceptor implements HandlerInterceptor, WebMvcConfigurer {
 
     private final Tracer tracer;
@@ -38,6 +37,12 @@ public class BaggageInterceptor implements HandlerInterceptor, WebMvcConfigurer 
                 try (BaggageInScope baggageInScope = tracer.createBaggageInScope(span.context(), "userId", userId)) {
                     // The baggage "user-id" with the extracted value is now in the current span context
                     log.info("user-id {} added to the trace {}", tracer.getBaggage("userId"), baggageInScope.name());
+
+//                TraceContext traceContext = tracer.currentTraceContext().context();
+//                assert traceContext != null;
+//                try (BaggageInScope baggageInScope = tracer.createBaggageInScope(traceContext, "userId", userId)) {
+//                    // The baggage "user-id" with the extracted value is now in the current span context
+//                    log.info("user-id {} added to the trace {}", tracer.getBaggage("userId"), baggageInScope.name());
             }
 
         }

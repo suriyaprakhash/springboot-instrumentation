@@ -1,9 +1,7 @@
-package com.suriyaprakhash.springboot_instrumentation;
+package com.suriyaprakhash.springboot_instrumentation.config.baggage;
 
 
-import io.micrometer.tracing.BaggageInScope;
-import io.micrometer.tracing.Span;
-import io.micrometer.tracing.Tracer;
+import io.micrometer.tracing.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,6 +36,7 @@ public class BaggageAspect {
         } else {
             log.warn("Not in a web request context, cannot access HTTP headers.");
         }
+
         Span span = tracer.currentSpan();
         assert span != null;
         try (BaggageInScope baggageInScope = tracer.createBaggageInScope(span.context(), "userId", userId)) {
@@ -45,6 +44,14 @@ public class BaggageAspect {
             log.info("user-id {} added to the trace {}", tracer.getBaggage("userId"), baggageInScope.name());
             result = joinPoint.proceed();
         }
+
+//        TraceContext traceContext = tracer.currentTraceContext().context();
+//        assert traceContext != null;
+//        try (BaggageInScope baggageInScope = tracer.createBaggageInScope(traceContext, "userId", userId)) {
+//            // The baggage "user-id" with the extracted value is now in the current span context
+//            log.info("user-id {} added to the trace {}", tracer.getBaggage("userId"), baggageInScope.name());
+//            result = joinPoint.proceed();
+//        }
         return result;
     }
 }

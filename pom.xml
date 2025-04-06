@@ -64,16 +64,16 @@
         </dependency>
 
         <!-- the following is required for tracing -->
-        <!--		&lt;!&ndash; uses brave instrumentation (micrometer to brave) &ndash;&gt;-->
-        <!--		<dependency>-->
-        <!--			<groupId>io.micrometer</groupId>-->
-        <!--			<artifactId>micrometer-tracing-bridge-brave</artifactId>-->
-        <!--		</dependency>-->
-        <!--		&lt;!&ndash; reporter to zipkin &ndash;&gt;-->
-        <!--		<dependency>-->
-        <!--			<groupId>io.zipkin.reporter2</groupId>-->
-        <!--			<artifactId>zipkin-reporter-brave</artifactId>-->
-        <!--		</dependency>-->
+        <!-- uses brave instrumentation (micrometer to brave) -->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-tracing-bridge-brave</artifactId>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; reporter to zipkin &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.zipkin.reporter2</groupId>-->
+<!--            <artifactId>zipkin-reporter-brave</artifactId>-->
+<!--        </dependency>-->
 
         <!-- uses otel instrumentation (micrometer to otel) -->
         <dependency>

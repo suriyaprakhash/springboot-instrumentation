@@ -1,4 +1,4 @@
-package com.suriyaprakhash.springboot_instrumentation;
+package com.suriyaprakhash.springboot_instrumentation.config.baggage;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -59,3 +59,7 @@ Navigate to http://localhost:3000 - grafana to view prometheus metrics
   - @Async needs custom ExecutorTaskPool defined and the context copied over
     - Note - the above isn't tracable with using @ContinueSpan in the Zipkin grafana
     - Also the baggage isn't getting carried to async thread
+
+### Observe
+
+- Add custom metrics - http://localhost:8081/actuator/metrics/observe.service.fine-control-method?tag=tenantId:aws

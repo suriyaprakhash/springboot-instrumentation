@@ -1,7 +1,6 @@
 package com.suriyaprakhash.springboot_instrumentation;
 
 import com.suriyaprakhash.springboot_instrumentation.config.baggage.AddBaggage;
-import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -9,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @EnableAsync
@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServerApplication {
 
 	private final HandlerService handlerService;
-	private final ObservationRegistry observationRegistry;
 
-    public ServerApplication(HandlerService handlerService, ObservationRegistry observationRegistry) {
+    public ServerApplication(HandlerService handlerService) {
         this.handlerService = handlerService;
-        this.observationRegistry = observationRegistry;
     }
 
 	public static void main(String[] args) {
@@ -50,10 +48,12 @@ public class ServerApplication {
 
 	@AddBaggage
 	@GetMapping("/server/observe")
-	@Observed(name = "server.hello-world")
-	public String observe() {
+	@Observed(name = "observe.controller.method",
+			contextualName = "controller-observe-method")
+	public String observe(@RequestHeader(name = "X-Tenant-Id") String tenantId) {
 		// Note here the MDC contains the userId value
 		log.info("Logging on server - observe - with userId - {}", MDC.get("userId"));
+		handlerService.observeServiceMethod();
 		return "Hello World! Observe";
 	}
 }

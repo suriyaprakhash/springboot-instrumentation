@@ -36,4 +36,13 @@ public class HandlerService {
     }
 
 
+    /// OBSERVE ///
+
+    @Observed(name = "observe.service.method",
+            contextualName = "service-observe-method")
+    public void observeServiceMethod() {
+        // Method logic
+        log.info("ObserveServiceMethod - with userId - {}", MDC.get("userId"));
+    }
+
 }

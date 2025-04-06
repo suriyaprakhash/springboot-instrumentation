@@ -46,11 +46,21 @@ public class ClientApplication {
 //		return restClient.get().uri("/server/trace").retrieve().body(String.class);
 //	}
 
-	@GetMapping("/client")
-	public String client(@RequestParam(name = "user", required = false, defaultValue = "default-user") String user) {
+	@GetMapping("/client/trace")
+	public String clientTrace(@RequestParam(name = "user", required = false, defaultValue = "default-user") String userId) {
 		log.info("Logging on client");
 		return restClient.get().uri("/server/trace")
-				.header("X-User-Id", user).retrieve().body(String.class);
+				.header("X-User-Id", userId).retrieve().body(String.class);
+	}
+
+	@GetMapping("/client/observe")
+	public String clientObserve(@RequestParam(name = "user", required = false, defaultValue = "default-user") String userId,
+			@RequestParam(name = "tenant", required = false, defaultValue = "client-default-user") String tenantId) {
+		log.info("Logging on client");
+		return restClient.get().uri("/server/observe")
+				.header("X-User-Id", userId)
+				.header("X-Tenant-Id", tenantId)
+				.retrieve().body(String.class);
 	}
 
 }

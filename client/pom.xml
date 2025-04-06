@@ -2,34 +2,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>com.suriyaprakhash</groupId>
 		<artifactId>springboot-instrumentation</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<artifactId>client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>springboot-instrumentation client app</name>
+	<name>springboot-instrumentation - client app</name>
 	<description>Demo project for Spring Boot instrumentation - Client App</description>
+	<packaging>jar</packaging>
 
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
-	<properties>
-		<java.version>21</java.version>
-	</properties>
+	<build>
+
+		<finalName>springboot-instrumentation-client</finalName>
+
+		<plugins>
+			<plugin>
+				<!-- This spring boot plugin adds the manifest - which is required to run the spring boot from in cmd line -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.suriyaprakhash.springboot_instrumentation.ClientApplication</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+			</plugin>
+
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<annotationProcessorPaths>-->
+<!--						<path>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--						</path>-->
+<!--					</annotationProcessorPaths>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+
+		</plugins>
+	</build>
 
 </project>

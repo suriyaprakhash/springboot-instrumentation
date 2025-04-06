@@ -43,13 +43,13 @@ public class ClientApplication {
 //	@GetMapping("/client")
 //	public String client(String user) {
 //		log.info("Logging on client");
-//		return restClient.get().uri("/server").retrieve().body(String.class);
+//		return restClient.get().uri("/server/trace").retrieve().body(String.class);
 //	}
 
 	@GetMapping("/client")
 	public String client(@RequestParam(name = "user", required = false, defaultValue = "default-user") String user) {
 		log.info("Logging on client");
-		return restClient.get().uri("/server")
+		return restClient.get().uri("/server/trace")
 				.header("X-User-Id", user).retrieve().body(String.class);
 	}
 

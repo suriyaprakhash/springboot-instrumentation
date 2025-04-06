@@ -40,11 +40,11 @@ public class ClientApplication {
 		return "Hello World!";
 	}
 
-//	@GetMapping("/client")
-//	public String client(String user) {
-//		log.info("Logging on client");
-//		return restClient.get().uri("/server/trace").retrieve().body(String.class);
-//	}
+	@GetMapping("/client/trace/basic")
+	public String client(String user) {
+		log.info("Logging on client");
+		return restClient.get().uri("/server/trace/basic").retrieve().body(String.class);
+	}
 
 	@GetMapping("/client/trace")
 	public String clientTrace(@RequestParam(name = "user", required = false, defaultValue = "default-user") String userId) {

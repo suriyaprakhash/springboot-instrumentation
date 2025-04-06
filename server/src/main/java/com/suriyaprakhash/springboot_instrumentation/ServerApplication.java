@@ -33,6 +33,13 @@ public class ServerApplication {
 		return "Hello World!";
 	}
 
+	@GetMapping("/server/trace/basic")
+	public String traceBasic() {
+		// Note here the MDC contains the userId value
+		log.info("Logging on server - trace basic");
+		String res = handlerService.helloWorldBasic();
+		return res;
+	}
 
 	@AddBaggage
 	@GetMapping("/server/trace")
@@ -54,6 +61,7 @@ public class ServerApplication {
 		// Note here the MDC contains the userId value
 		log.info("Logging on server - observe - with userId - {}", MDC.get("userId"));
 		handlerService.observeServiceMethod();
+		handlerService.observeFineControlServiceMethod(tenantId);
 		return "Hello World! Observe";
 	}
 }

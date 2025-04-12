@@ -4,7 +4,7 @@ The global visualization tool used here is [grafana running in docker](https://g
 
 ## Run
 
-- Run the Grafana docker compose
+- Run the [Grafana docker compose](https://github.com/suriyaprakhash/docker-collection/blob/master/services/grafana/docker-compose.yml)
 - Run the ClientApplication and ServerApplication
 - Navigate to http://localhost:8080/swagger-ui/index.html
 

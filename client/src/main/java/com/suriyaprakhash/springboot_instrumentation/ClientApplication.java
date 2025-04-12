@@ -1,6 +1,7 @@
 package com.suriyaprakhash.springboot_instrumentation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class ClientApplication {
 	}
 
 	@GetMapping("/client/trace/basic")
-	public String client(String user) {
+	public String client() {
 		log.info("Logging on client");
 		return restClient.get().uri("/server/trace/basic").retrieve().body(String.class);
 	}
@@ -56,11 +57,16 @@ public class ClientApplication {
 	@GetMapping("/client/observe")
 	public String clientObserve(@RequestParam(name = "user", required = false, defaultValue = "default-user") String userId,
 			@RequestParam(name = "tenant", required = false, defaultValue = "client-default-user") String tenantId) {
-		log.info("Logging on client");
-		return restClient.get().uri("/server/observe")
-				.header("X-User-Id", userId)
-				.header("X-Tenant-Id", tenantId)
-				.retrieve().body(String.class);
+		try {
+			log.info("Logging on client");
+			return restClient.get().uri("/server/observe")
+					.header("X-User-Id", userId)
+					.header("X-Tenant-Id", tenantId)
+					.retrieve().body(String.class);
+		} catch (Exception e) {
+			log.error("Error while calling server", e);
+		}
+		return "Something went wrong. Reach out to the admin using the this traceId - " + MDC.get("traceId");
 	}
 
 }

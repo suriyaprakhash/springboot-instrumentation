@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD) // This annotation can only be applied to methods
 @Retention(RetentionPolicy.RUNTIME) // The annotation will be available at runtime
-public @interface AddBaggage {
+public @interface AddUserIdBaggageFromHttpHeader {
     boolean enabled() default true;
 }

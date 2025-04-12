@@ -1,9 +1,12 @@
 package com.suriyaprakhash.springboot_instrumentation;
 
-import com.suriyaprakhash.springboot_instrumentation.config.baggage.AddBaggage;
+import com.suriyaprakhash.springboot_instrumentation.config.baggage.AddUserIdBaggageFromHttpHeader;
 import io.micrometer.observation.annotation.Observed;
+import io.micrometer.tracing.Baggage;
+import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @Slf4j
 public class ServerApplication {
+
+	@Autowired
+	private Tracer tracer;
 
 	private final HandlerService handlerService;
 
@@ -41,7 +47,7 @@ public class ServerApplication {
 		return res;
 	}
 
-	@AddBaggage
+	@AddUserIdBaggageFromHttpHeader
 	@GetMapping("/server/trace")
 	public String trace() {
 		// Note here the MDC contains the userId value
@@ -53,15 +59,28 @@ public class ServerApplication {
 		return res;
 	}
 
-	@AddBaggage
+	@AddUserIdBaggageFromHttpHeader
 	@GetMapping("/server/observe")
-	@Observed(name = "observe.controller.method",
-			contextualName = "controller-observe-method")
+	@Observed(name = "server.controller.observe",
+			contextualName = "server-controller-observe")
 	public String observe(@RequestHeader(name = "X-Tenant-Id") String tenantId) {
 		// Note here the MDC contains the userId value
 		log.info("Logging on server - observe - with userId - {}", MDC.get("userId"));
 		handlerService.observeServiceMethod();
 		handlerService.observeFineControlServiceMethod(tenantId);
+		return "Hello World! Observe";
+	}
+
+	@AddUserIdBaggageFromHttpHeader
+	@GetMapping("/server/observe/baggage")
+	@Observed(name = "server.controller.observe.baggage",
+			contextualName = "server-controller-observe-baggage")
+	public String observeWithBaggage() {
+		// Note here the MDC contains the userId value
+		log.info("Logging on server - observe - with userId - {}", MDC.get("userId"));
+		Baggage tenantIdBaggage = tracer.getBaggage("tenantId");
+		handlerService.observeFineControlServiceMethod(tenantIdBaggage.get());
+		handlerService.observeFineControlServiceMethodWithExistingBaggage();
 		return "Hello World! Observe";
 	}
 }

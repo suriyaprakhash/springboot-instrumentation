@@ -51,17 +51,29 @@ public class HandlerService {
 
     /// OBSERVE ///
 
-    @Observed(name = "observe.service.basic-method",
-            contextualName = "service-observe-basic-method")
+    @Observed(name = "service.handler-svc.observe.basic",
+            contextualName = "service-handler-svc-observe-basic")
     public void observeServiceMethod() {
         log.info("ObserveServiceMethod - with userId - {}", MDC.get("userId"));
     }
 
 
     public void observeFineControlServiceMethod(String tenantId) {
-        String data = Observation.createNotStarted("observe.service.fine-control-method", this.observationRegistry)
-                .contextualName("service-observe-fine-ctrl-method")
+        String data = Observation.createNotStarted("service.handler-svc.observe.custom", this.observationRegistry)
+                .contextualName("service-handler-svc-observe-custom")
                 .lowCardinalityKeyValue("tenantId", tenantId)
+                .highCardinalityKeyValue("user.id", MDC.get("userId"))
+                .observe(() -> {
+                    log.info("ObserveServiceMethod - fine controlled with userId - {}", MDC.get("userId"));
+                    return "Processed: " ;
+                });
+        log.info("ObserveServiceMethod(outside) - fine controlled with userId - {}", MDC.get("userId"));
+    }
+
+
+    public void observeFineControlServiceMethodWithExistingBaggage() {
+        String data = Observation.createNotStarted("service.handler-svc.observe.custom-baggage", this.observationRegistry)
+                .contextualName("service-handler-svc-observe-custom-baggage")
                 .highCardinalityKeyValue("user.id", MDC.get("userId"))
                 .observe(() -> {
                     log.info("ObserveServiceMethod - fine controlled with userId - {}", MDC.get("userId"));

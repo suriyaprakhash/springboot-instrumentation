@@ -2,6 +2,12 @@
 
 The global visualization tool used here is [grafana running in docker](https://github.com/suriyaprakhash/docker-collection/tree/master/services/grafana)
 
+## Run
+
+- Run the Grafana docker compose
+- Run the ClientApplication and ServerApplication
+- Navigate to http://localhost:8080/swagger-ui/index.html
+
 ## Logs
 
 ### Loki
@@ -72,4 +78,4 @@ Navigate to http://localhost:3000 - grafana to view prometheus metrics
 
 ### Observe
 
-- Add custom metrics - http://localhost:8081/actuator/metrics/observe.service.fine-control-method?tag=tenantId:aws
+- Add custom metrics - http://localhost:8081/actuator/metrics/service.handler-svc.observe.custom?tag=tenantId:aws

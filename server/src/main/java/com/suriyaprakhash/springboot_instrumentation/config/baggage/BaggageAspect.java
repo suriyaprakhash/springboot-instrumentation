@@ -23,8 +23,8 @@ public class BaggageAspect {
         this.tracer = tracer;
     }
 
-    @Around("@annotation(addBaggage)")
-    public Object addBaggage(ProceedingJoinPoint joinPoint, AddBaggage addBaggage) throws Throwable {
+    @Around("@annotation(addUserIdBaggageFromHttpHeader)")
+    public Object addUserIdBaggage(ProceedingJoinPoint joinPoint, AddUserIdBaggageFromHttpHeader addUserIdBaggageFromHttpHeader) throws Throwable {
         Object result = null;
         String userId = "default-user";
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -54,4 +54,5 @@ public class BaggageAspect {
 //        }
         return result;
     }
+
 }

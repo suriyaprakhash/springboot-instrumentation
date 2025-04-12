@@ -1,11 +1,16 @@
 # springboot-instrumentation
 
-The global visualization tool used here is [grafana running in docker](https://github.com/suriyaprakhash/docker-collection/tree/master/services/grafana)
+This gives a step by step instruction to understand the Spring boot observability. 
+
+Checkout the following video to understand the basics,
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/xR9q8xqwadI/0.jpg)](https://www.youtube.com/watch?v=xR9q8xqwadI)
 
 ## Run
 
 - Run the [Grafana docker compose](https://github.com/suriyaprakhash/docker-collection/blob/master/services/grafana/docker-compose.yml)
-- Run the ClientApplication and ServerApplication
+- Import the multi-module pom into your IDE 
+- From the **client** and **server** module, run the **ClientApplication** and **ServerApplication**
 - Navigate to http://localhost:8080/swagger-ui/index.html
 
 ## Logs

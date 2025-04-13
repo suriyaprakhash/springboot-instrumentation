@@ -4,7 +4,8 @@ This gives a step by step instruction to understand the Spring boot observabilit
 
 Checkout the following video to understand the basics,
 
-[![YouTube](http://i.ytimg.com/vi/xR9q8xqwadI/hqdefault.jpg)](https://www.youtube.com/watch?v=xR9q8xqwadI)
+[![Step by Step - Spring Boot Observability](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FxR9q8xqwadI)](https://youtu.be/xR9q8xqwadI)
+
 ## Run
 
 - Run the [Grafana docker compose](https://github.com/suriyaprakhash/docker-collection/blob/master/services/grafana/docker-compose.yml)

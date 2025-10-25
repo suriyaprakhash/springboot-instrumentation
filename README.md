@@ -11,7 +11,9 @@ Checkout the following video to understand the basics,
 - Run the [Grafana docker compose](https://github.com/suriyaprakhash/docker-collection/blob/master/services/grafana/docker-compose.yml)
 - Import the multi-module pom into your IDE 
 - From the **client** and **server** module, run the **ClientApplication** and **ServerApplication**
-- Navigate to http://localhost:8080/swagger-ui/index.html
+- Testing the application
+  - Navigate to http://localhost:8080/swagger-ui/index.html to call manually
+  - You can also run **Gatling** module -> Gatling plugin and run test for *performance testing* with a load 
 
 ## Logs
 

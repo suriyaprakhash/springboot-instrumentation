@@ -64,41 +64,60 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- for loki logs -->
-        <dependency>
-            <groupId>com.github.loki4j</groupId>
-            <artifactId>loki-logback-appender</artifactId>
-            <version>1.6.0</version>
-        </dependency>
+
+
+        <!-- ======== LOGGING ========= -->
+
+        <!-- for loki logs (the exporter is within the appender itself)-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.loki4j</groupId>-->
+<!--            <artifactId>loki-logback-appender</artifactId>-->
+<!--            <version>1.6.0</version>-->
+<!--        </dependency>-->
+
+
+        <!-- ======== TRACING ========= -->
 
         <!-- the following is required for tracing -->
         <!-- uses brave instrumentation (micrometer to brave) -->
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-tracing-bridge-brave</artifactId>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; reporter to zipkin &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>io.zipkin.reporter2</groupId>-->
-<!--            <artifactId>zipkin-reporter-brave</artifactId>-->
-<!--        </dependency>-->
+        <!-- this uses brave lib for trace generation and context propagation - an alternative to micrometer-tracing-bridge-otel -->
+        <!--        <dependency>-->
+        <!--            <groupId>io.micrometer</groupId>-->
+        <!--            <artifactId>micrometer-tracing-bridge-brave</artifactId>-->
+        <!--        </dependency>-->
+        <!--   reporter to zipkin - similar to pentelemetry-exporter-zipkin-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.zipkin.reporter2</groupId>-->
+        <!--            <artifactId>zipkin-reporter-brave</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- uses otel instrumentation (micrometer to otel) -->
+        <!-- the bridge/facade to use the OTel library for trace generation and context propagation-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
         <!-- reporter to zipkin -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-zipkin</artifactId>
-        </dependency>
+        <!-- The component responsible for formatting and sending the traces to the Zipkin server.-->
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry</groupId>-->
+<!--            <artifactId>opentelemetry-exporter-zipkin</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- ======== METRICS ========= -->
 
         <!-- the following is required for metrics -->
         <!-- so as it provides actuator endpoints -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- this exposes the actuator metrics endpoint in prometheus format - so that prometheus could scrape -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- optional - needed if we need to send the data to otel collector -->
@@ -108,12 +127,13 @@
         <!--			<scope>runtime</scope>-->
         <!--		</dependency>-->
 
-        <!-- this exposes the actuator metrics endpoint in prometheus format - so that prometheus could scrape -->
+        <!-- ======== GLOBAL ========= -->
+        <!-- Exporter to send logs,traces,metrics to an OTel Collector via OTLP -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-            <scope>runtime</scope>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
         </dependency>
+
 
         <!--tests -->
         <dependency>
@@ -128,6 +148,19 @@
         <!--			<scope>test</scope>-->
         <!--		</dependency>-->
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-instrumentation-bom</artifactId>
+                <version>2.22.0</version> <!-- Check Maven for the latest version -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
 
 </project>

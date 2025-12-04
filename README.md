@@ -69,6 +69,41 @@ scrape_configs:
 Navigate to http://localhost:9090 (not working - need to find why)
 Navigate to http://localhost:3000 - grafana to view prometheus metrics
 
+## Using OTEL
+
+**NOTE** Currently only configured in the client app.
+
+The following dependency exports logs, traces and metrics to OTLP
+```
+opentelemetry-exporter-otlp
+```
+
+Download the otel agent from the following url,
+```curl
+curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+```
+
+Pass in the following as the VM arg,
+```
+-javaagent:/Users/suriya/Downloads/opentelemetry-javaagent.jar
+```
+
+### Loki
+
+If needed, we might need to include OTLP appender for custom logging. Else the default ones goes without any change.
+
+### Trace
+
+We might need to tell what mechanism the bridge has to be 
+```
+micrometer-tracing-bridge-otel
+```
+which is what is going to determine what format whether it is brave or otel
+
+### Metrics
+
+
+
 
 ## Takeaway
 

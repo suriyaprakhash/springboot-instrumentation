@@ -75,7 +75,6 @@
 <!--            <version>1.6.0</version>-->
 <!--        </dependency>-->
 
-
         <!-- ======== TRACING ========= -->
 
         <!-- the following is required for tracing -->
@@ -113,19 +112,12 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- this exposes the actuator metrics endpoint in prometheus format - so that prometheus could scrape -->
+        <!-- this exposes the actuator metrics endpoint in prometheus format - so that prometheus could scrape or OTPL could send -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- optional - needed if we need to send the data to otel collector -->
-        <!--		<dependency>-->
-        <!--			<groupId>io.micrometer</groupId>-->
-        <!--			<artifactId>micrometer-registry-otlp</artifactId>-->
-        <!--			<scope>runtime</scope>-->
-        <!--		</dependency>-->
 
         <!-- ======== GLOBAL ========= -->
         <!-- Exporter to send logs,traces,metrics to an OTel Collector via OTLP -->
@@ -133,6 +125,13 @@
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
         </dependency>
+
+        <!-- optional - needed if we need to send the data to otel collector -->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registry-otlp</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
 
 
         <!--tests -->

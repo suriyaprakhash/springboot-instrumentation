@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="serviceName" value="server-app" />
-    <property name="app" value="springboot-instrumentation" />
+    <property name="serviceName" value="server-app"/>
+    <property name="app" value="springboot-instrumentation"/>
 
 
+    <!--  CONSOLE APPENDER-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%green(%thread),%X{traceId:-},%X{spanId:-},%X{userId}] %cyan(%logger{36}) - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%green(%thread),%X{traceId:-},%X{spanId:-},%X{userId}]
+                %cyan(%logger{36}) - %msg%n
             </pattern>
         </encoder>
     </appender>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-        <http>
-            <url>http://localhost:3100/loki/api/v1/push</url>
-        </http>
-        <format>
-            <label>
-                <pattern>app=${app},service_name=${serviceName},host=${HOSTNAME},level=%level,userId=%X{userId}</pattern>
-                <readMarkers>true</readMarkers>
-            </label>
-            <message>
-                <pattern>
-                    {
-                        "level":"%level",
-                        "class":"%logger{36}",
-                        "thread":"%thread",
-                        "message": "%message",
-                        "traceId": "%X{traceId:-}",
-                        "spanId": "%X{spanId:-}"
-                    }
-                </pattern>
-            </message>
-        </format>
-    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 
-    <root level="INFO">
-        <appender-ref ref="LOKI" />
-    </root>
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-    </root>
+    <!--  LOKI APPENDER -->
+<!--    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">-->
+<!--        <http>-->
+<!--            <url>http://localhost:3100/loki/api/v1/push</url>-->
+<!--        </http>-->
+<!--        <format>-->
+<!--            <label>-->
+<!--                <pattern>app=${app},service_name=${serviceName},host=${HOSTNAME},level=%level,userId=%X{userId}-->
+<!--                </pattern>-->
+<!--                <readMarkers>true</readMarkers>-->
+<!--            </label>-->
+<!--            <message>-->
+<!--                <pattern>-->
+<!--                    {-->
+<!--                    "level":"%level",-->
+<!--                    "class":"%logger{36}",-->
+<!--                    "thread":"%thread",-->
+<!--                    "message": "%message",-->
+<!--                    "traceId": "%X{traceId:-}",-->
+<!--                    "spanId": "%X{spanId:-}"-->
+<!--                    }-->
+<!--                </pattern>-->
+<!--            </message>-->
+<!--        </format>-->
+<!--    </appender>-->
+
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="LOKI"/>-->
+<!--    </root>-->
+
 </configuration>

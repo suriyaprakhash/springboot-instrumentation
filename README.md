@@ -71,11 +71,15 @@ Navigate to http://localhost:3000 - grafana to view prometheus metrics
 
 ## Using OTEL
 
-**NOTE** Currently only configured in the client app.
+**NOTE** For the OTEL baggage - it doesn't work directly - we would need to wire them.
 
 The following dependency exports logs, traces and metrics to OTLP
 ```
 opentelemetry-exporter-otlp
+```
+and this would need the following bom,
+```
+pentelemetry-instrumentation-bom
 ```
 
 Download the otel agent from the following url,
@@ -87,6 +91,27 @@ Pass in the following as the VM arg,
 ```
 -javaagent:/Users/suriya/Downloads/opentelemetry-javaagent.jar
 ```
+
+For the keys in the mdc to show up as a **Field (not Loki's Explore label here - the one that shows within the log as an attribute)**, we would need to update the **processor** in [OtelCollector]()
+```
+processors:
+  attributes/add_userId_field:
+    actions:
+      # The value "userId" here must match the key you used in MDC
+      - key: userId
+        value: "%{userId}"
+        action: insert
+```
+and add them as a step in the loki config,
+```
+    logs:
+      receivers: [otlp]
+      processors: [attributes/add_userId_field] # check the corresponding processor
+      exporters: [otlphttp] # send logs to loki and log them
+```
+here **otlphttp** is for Loki - since loki is not supported yet here we would need to mark it as **otlphttp** to let the collector start.
+
+Then, we can use **Drilldown** in Grafana, and select the applicable label to search quickly. here by using **userId**
 
 ### Loki
 
